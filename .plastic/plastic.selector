@@ -1,0 +1,4 @@
+repository "Money Maker@SinerjiSoftGame@cloud"
+  path "/"
+    br "/main"
+    co "/main"
