@@ -35,15 +35,22 @@ public class Ai : MonoBehaviour
 
             buildingAreas.Add(gameObject);
         }
-        targetBuilding = buildingAreas[Random.Range(0, buildingAreas.Count)];
+      
+       
+
+       
         moveMoney = true;
         moving = true;
        
     }
 
-        // Update is called once per frame
-        void Update()
-    {               
+    static int SortByCost(GameObject p1, GameObject p2)
+    {
+        return p1.GetComponent<BuildingPlane>().cost.CompareTo(p2.GetComponent<BuildingPlane>().cost);
+    }
+    void Update()
+    {
+       
         if (moveMoney)
         {
             MoveClosestTarget();
@@ -66,7 +73,7 @@ public class Ai : MonoBehaviour
     }
     void MoveClosestTarget()
     {
-       
+     
         float distanceClosestTarget = Mathf.Infinity;
         GameObject closestTarget = null;
         GameObject[] allTargets = GameObject.FindGameObjectsWithTag("Money");
@@ -95,6 +102,9 @@ public class Ai : MonoBehaviour
             if (decisionMoveDirection == 1)
             {
                 moveBuilding = true;
+                buildingAreas.Sort(SortByCost);
+                targetBuilding = buildingAreas[0];
+                
             }
             if (decisionMoveDirection == 2)
             {
@@ -133,6 +143,9 @@ public class Ai : MonoBehaviour
                 if (decisionMoveDirection == 1)
                 {
                     moveBuilding = true;
+                    buildingAreas.Sort(SortByCost);
+                    targetBuilding = buildingAreas[0];
+                    
                 }
                 anim.SetBool("walk", true);
                 anim.SetBool("idle", false);
@@ -249,15 +262,38 @@ public class Ai : MonoBehaviour
                         other.GetComponent<BuildingPlane>().amountImage.fillAmount = 1 - (other.GetComponent<BuildingPlane>().cost / other.GetComponent<BuildingPlane>().startCost);
                         if (other.GetComponent<BuildingPlane>().cost == 0)
                         {
-                            if (transform.tag == "PlayerRed")
+                            if (other.GetComponent<BuildingPlane>().buildingLevel != 0)
                             {
-                                other.GetComponent<BuildingPlane>().blue = false;
-                                other.GetComponent<BuildingPlane>().red = true;
-                                other.GetComponent<BuildingPlane>().yellow = false;
-                                other.GetComponent<BuildingPlane>().green = false;
+                                if (transform.tag == "PlayerRed")
+                                {
+                                    if (other.GetComponent<BuildingPlane>().color != "red")
+                                    {
+                                        other.GetComponent<BuildingPlane>().color = "red";
+                                        other.GetComponent<BuildingPlane>().ChangeColor();
+
+                                    }
+                                    if (other.GetComponent<BuildingPlane>().color == "red")
+                                    {
+                                        other.GetComponent<BuildingPlane>().CostUpdate();
+
+
+                                    }
+                                }
+                               
                             }
-                            other.GetComponent<BuildingPlane>().CostUpdate();
+                            else
+                            {
+                                other.GetComponent<BuildingPlane>().color = "red";
+                                other.GetComponent<BuildingPlane>().CostUpdate();
+                            }
+
+
+
+
+
                         }
+
+                       
 
                     }
 
@@ -280,14 +316,35 @@ public class Ai : MonoBehaviour
                         other.GetComponent<BuildingPlane>().amountImage.fillAmount = 1 - (other.GetComponent<BuildingPlane>().cost / other.GetComponent<BuildingPlane>().startCost);
                         if (other.GetComponent<BuildingPlane>().cost == 0)
                         {
-                            if (transform.tag == "PlayerRed")
+                            if (other.GetComponent<BuildingPlane>().buildingLevel != 0)
                             {
-                                other.GetComponent<BuildingPlane>().blue = false;
-                                other.GetComponent<BuildingPlane>().red = true;
-                                other.GetComponent<BuildingPlane>().yellow = false;
-                                other.GetComponent<BuildingPlane>().green = false;
+                                if (transform.tag == "PlayerRed")
+                                {
+                                    if (other.GetComponent<BuildingPlane>().color != "red")
+                                    {
+                                        other.GetComponent<BuildingPlane>().color = "red";
+                                        other.GetComponent<BuildingPlane>().ChangeColor();
+
+                                    }
+                                    if (other.GetComponent<BuildingPlane>().color == "red")
+                                    {
+                                        other.GetComponent<BuildingPlane>().CostUpdate();
+
+
+                                    }
+                                }
+
                             }
-                            other.GetComponent<BuildingPlane>().CostUpdate();
+                            else
+                            {
+                                other.GetComponent<BuildingPlane>().color = "red";
+                                other.GetComponent<BuildingPlane>().CostUpdate();
+                            }
+
+
+
+
+
                         }
                     }
                 }

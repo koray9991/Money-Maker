@@ -72,12 +72,31 @@ public class Character : MonoBehaviour
                         other.GetComponent<BuildingPlane>().amountImage.fillAmount = 1 - (other.GetComponent<BuildingPlane>().cost / other.GetComponent<BuildingPlane>().startCost);
                         if (other.GetComponent<BuildingPlane>().cost == 0)
                         {
-                            other.GetComponent<BuildingPlane>().blue = true;
-                            other.GetComponent<BuildingPlane>().red = false;
-                            other.GetComponent<BuildingPlane>().yellow = false;
-                            other.GetComponent<BuildingPlane>().green = false;
+                            if (other.GetComponent<BuildingPlane>().buildingLevel != 0)
+                            {
+                                if (other.GetComponent<BuildingPlane>().color != "blue")
+                                {
+                                    other.GetComponent<BuildingPlane>().color = "blue";
+                                    other.GetComponent<BuildingPlane>().ChangeColor();
 
-                            other.GetComponent<BuildingPlane>().CostUpdate();
+                                }
+                                if (other.GetComponent<BuildingPlane>().color == "blue")
+                                {
+                                    other.GetComponent<BuildingPlane>().CostUpdate();
+                                   
+
+                                }
+                            }
+                            else
+                            {
+                                other.GetComponent<BuildingPlane>().color = "blue";
+                                other.GetComponent<BuildingPlane>().CostUpdate();
+                            }
+
+
+
+
+
                         }
                     }
                 }
@@ -102,12 +121,31 @@ public class Character : MonoBehaviour
                         other.GetComponent<BuildingPlane>().amountImage.fillAmount = 1 - (other.GetComponent<BuildingPlane>().cost / other.GetComponent<BuildingPlane>().startCost);
                         if (other.GetComponent<BuildingPlane>().cost == 0)
                         {
-                            other.GetComponent<BuildingPlane>().blue = true;
-                            other.GetComponent<BuildingPlane>().red = false;
-                            other.GetComponent<BuildingPlane>().yellow = false;
-                            other.GetComponent<BuildingPlane>().green = false;
+                            if (other.GetComponent<BuildingPlane>().buildingLevel != 0)
+                            {
+                                if (other.GetComponent<BuildingPlane>().color != "blue")
+                                {
+                                    other.GetComponent<BuildingPlane>().color = "blue";
+                                    other.GetComponent<BuildingPlane>().ChangeColor();
 
-                            other.GetComponent<BuildingPlane>().CostUpdate();
+                                }
+                                if (other.GetComponent<BuildingPlane>().color == "blue")
+                                {
+                                    other.GetComponent<BuildingPlane>().CostUpdate();
+                                    
+
+                                }
+                            }
+                            else
+                            {
+                                other.GetComponent<BuildingPlane>().color = "blue";
+                                other.GetComponent<BuildingPlane>().CostUpdate();
+                            }
+
+
+                            
+
+                           
                         }
                     }
 

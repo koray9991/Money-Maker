@@ -1821,7 +1821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac06ac6d9d4b2724196beef5f9999cf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startCost: 30
+  startCost: 55
   cost: 0
   costText: {fileID: 1834110966}
   amountImage: {fileID: 672602731}
@@ -1832,10 +1832,7 @@ MonoBehaviour:
   materials:
   - {fileID: 2100000, guid: e7bcf83d318fbe547b8ad8cde41d0899, type: 2}
   - {fileID: 2100000, guid: d92034b81b17ef24a97e27b03f93d330, type: 2}
-  red: 0
-  blue: 0
-  green: 0
-  yellow: 0
+  color: 
   buildings: []
 --- !u!135 &495198893
 SphereCollider:
@@ -2846,10 +2843,7 @@ MonoBehaviour:
   materials:
   - {fileID: 2100000, guid: e7bcf83d318fbe547b8ad8cde41d0899, type: 2}
   - {fileID: 2100000, guid: d92034b81b17ef24a97e27b03f93d330, type: 2}
-  red: 0
-  blue: 0
-  green: 0
-  yellow: 0
+  color: 
   buildings: []
 --- !u!135 &605384728
 SphereCollider:
@@ -2962,7 +2956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac06ac6d9d4b2724196beef5f9999cf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startCost: 60
+  startCost: 45
   cost: 0
   costText: {fileID: 547240916}
   amountImage: {fileID: 1296990093}
@@ -2973,10 +2967,7 @@ MonoBehaviour:
   materials:
   - {fileID: 2100000, guid: e7bcf83d318fbe547b8ad8cde41d0899, type: 2}
   - {fileID: 2100000, guid: d92034b81b17ef24a97e27b03f93d330, type: 2}
-  red: 0
-  blue: 0
-  green: 0
-  yellow: 0
+  color: 
   buildings: []
 --- !u!135 &617148834
 SphereCollider:
@@ -4066,7 +4057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac06ac6d9d4b2724196beef5f9999cf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startCost: 10
+  startCost: 70
   cost: 0
   costText: {fileID: 880938663}
   amountImage: {fileID: 48080561}
@@ -4077,10 +4068,7 @@ MonoBehaviour:
   materials:
   - {fileID: 2100000, guid: e7bcf83d318fbe547b8ad8cde41d0899, type: 2}
   - {fileID: 2100000, guid: d92034b81b17ef24a97e27b03f93d330, type: 2}
-  red: 0
-  blue: 0
-  green: 0
-  yellow: 0
+  color: 
   buildings: []
 --- !u!1001 &773058840
 PrefabInstance:
@@ -7804,10 +7792,7 @@ MonoBehaviour:
   materials:
   - {fileID: 2100000, guid: e7bcf83d318fbe547b8ad8cde41d0899, type: 2}
   - {fileID: 2100000, guid: d92034b81b17ef24a97e27b03f93d330, type: 2}
-  red: 0
-  blue: 0
-  green: 0
-  yellow: 0
+  color: 
   buildings: []
 --- !u!135 &1473947281
 SphereCollider:
@@ -10049,7 +10034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac06ac6d9d4b2724196beef5f9999cf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startCost: 50
+  startCost: 15
   cost: 0
   costText: {fileID: 1724317207}
   amountImage: {fileID: 880622762}
@@ -10060,10 +10045,7 @@ MonoBehaviour:
   materials:
   - {fileID: 2100000, guid: e7bcf83d318fbe547b8ad8cde41d0899, type: 2}
   - {fileID: 2100000, guid: d92034b81b17ef24a97e27b03f93d330, type: 2}
-  red: 0
-  blue: 0
-  green: 0
-  yellow: 0
+  color: 
   buildings: []
 --- !u!135 &2015486096
 SphereCollider:
