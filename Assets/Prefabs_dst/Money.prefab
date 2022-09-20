@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2015510849695145314}
   - component: {fileID: 2015510849695145317}
   - component: {fileID: 2015510849695145316}
-  - component: {fileID: 2015510849695145315}
+  - component: {fileID: 8588793212220561089}
   m_Layer: 0
   m_Name: Money
   m_TagString: Money
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 2015510849695145313}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.139, z: -1.733}
-  m_LocalScale: {x: 0.3, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.77, y: 0.05, z: 0.3}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cf0942570b38c7241b660bc435b615aa, type: 2}
+  - {fileID: 2100000, guid: ddc39ccaee3680f44ab30ebf7944db92, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -82,7 +82,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2015510849695145315
+--- !u!65 &8588793212220561089
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,5 +93,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3, y: 3, z: 3}
+  m_Size: {x: 2, y: 10, z: 3}
   m_Center: {x: 0, y: 0, z: 0}

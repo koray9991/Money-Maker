@@ -27,6 +27,8 @@ public class Ai : MonoBehaviour
     [HideInInspector] public bool moneyThrowBool;
     [HideInInspector] public float throwMoneyTimer;
     [HideInInspector] public bool moving;
+    public bool fall;
+    public float fallTimer;
     void Start()
     {
         targetStackCount = maxStackCount - (Random.Range(0, 10));
@@ -48,30 +50,64 @@ public class Ai : MonoBehaviour
     {
         return p1.GetComponent<BuildingPlane>().cost.CompareTo(p2.GetComponent<BuildingPlane>().cost);
     }
-    void Update()
+    void FixedUpdate()
     {
-       
-        if (moveMoney)
-        {
-            MoveClosestTarget();
-        }
-        if (moveBuilding)
-        {
-            MoveBuilding();
-        }
-        if (moveBank)
-        {
-            MoveBank();
-        }
         
+        if (fall)
+        {
+            if (stackedMoneyCount > 0)
+            {
+                for (int i = 0; i < stackedMoneyCount; i++)
+                {
+                    stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(transform.position + new Vector3(Random.Range(-5f, 5f), 0.2f, Random.Range(-5f, 5f)), 2, 1, 1);
+                    stackedMoneyCount -= 1;
+                    
+                    totalMoneyCount -= 1;
+                 //   stackedMoneys[stackTransform.childCount - 1].transform.tag = "Money";
+                    stackedMoneys.Remove(stackTransform.GetChild(stackTransform.childCount - 1).gameObject);
+                    Destroy(stackTransform.GetChild(stackTransform.childCount - 1).gameObject, 2);
+                    stackTransform.GetChild(stackTransform.childCount - 1).transform.parent = null;
+                }
+            }
+            GetComponent<CapsuleCollider>().isTrigger = true;
+           
+            fallTimer += Time.deltaTime;
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("GetUp"))
+            {
+                
+                anim.SetBool("fall", false);
+                anim.SetBool("walk", true);
+
+            }
+            if (fallTimer > 3.5f)
+            {
+                fall = false;
+                fallTimer = 0;
+                GetComponent<CapsuleCollider>().isTrigger = false;
+            }
+        }
+        else
+        {
+            if (moveMoney)
+            {
+                MoveClosestTarget();
+            }
+            if (moveBuilding)
+            {
+                MoveBuilding();
+            }
+            if (moveBank)
+            {
+                MoveBank();
+            }
+        }
 
         if (moneyThrowBool)
         {
             throwMoneyTimer += Time.deltaTime;
         }
-
     }
-    void MoveClosestTarget()
+   public void MoveClosestTarget()
     {
      
         float distanceClosestTarget = Mathf.Infinity;
@@ -88,7 +124,7 @@ public class Ai : MonoBehaviour
                     closestTarget = currentTarget;
                 }
             }
-
+           
             transform.position = Vector3.MoveTowards(transform.position, closestTarget.transform.position, moveSpeed);
             var targetRotation = Quaternion.LookRotation(closestTarget.transform.position - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
@@ -103,23 +139,26 @@ public class Ai : MonoBehaviour
             {
                 moveBuilding = true;
                 buildingAreas.Sort(SortByCost);
-                targetBuilding = buildingAreas[0];
-                
+                targetBuilding = buildingAreas[Random.Range(0,3)];
+                GetComponent<CapsuleCollider>().isTrigger = false;
+
             }
             if (decisionMoveDirection == 2)
             {
                 moveBank = true;
+                GetComponent<CapsuleCollider>().isTrigger = false;
             }
 
         }
     }
-    void MoveBank()
+  public  void MoveBank()
     {
         var targetRotation = Quaternion.LookRotation(Bank.position - transform.position);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
         if (Vector3.Distance(transform.position, Bank.position) > 1 )
         {
             transform.position = Vector3.MoveTowards(transform.position, Bank.position, moveSpeed);
+            
         }
         else
         {
@@ -139,13 +178,15 @@ public class Ai : MonoBehaviour
                 if (decisionMoveDirection == 0)
                 {
                     moveMoney = true;
+                    GetComponent<CapsuleCollider>().isTrigger = false;
                 }
                 if (decisionMoveDirection == 1)
                 {
                     moveBuilding = true;
                     buildingAreas.Sort(SortByCost);
-                    targetBuilding = buildingAreas[0];
-                    
+                    targetBuilding = buildingAreas[Random.Range(0, 3)];
+                    GetComponent<CapsuleCollider>().isTrigger = false;
+
                 }
                 anim.SetBool("walk", true);
                 anim.SetBool("idle", false);
@@ -156,7 +197,7 @@ public class Ai : MonoBehaviour
         
        
     }
-    void MoveBuilding()
+   public void MoveBuilding()
     {
         var targetRotation = Quaternion.LookRotation(targetBuilding.transform.position - transform.position);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
@@ -176,9 +217,11 @@ public class Ai : MonoBehaviour
             }
             else
             {
+
                 decisionMoveDirection = 0;
                 moveBuilding = false;
                 moveMoney = true;
+                GetComponent<CapsuleCollider>().isTrigger = false;
                 anim.SetBool("walk", true);
                 anim.SetBool("idle", false);
                 targetStackCount = maxStackCount - (Random.Range(0, 10));
@@ -187,7 +230,6 @@ public class Ai : MonoBehaviour
         }
         
     }
-
 
     private void OnTriggerEnter(Collider other)
     {
@@ -202,7 +244,7 @@ public class Ai : MonoBehaviour
                 stackedMoneys.Add(other.gameObject);
                 other.tag = "StackedMoney";
                 other.transform.parent = stackTransform;
-                other.transform.DOLocalJump(new Vector3(0, stackedMoneyCount / 10, 0), 2, 1, 1);
+                other.transform.DOLocalJump(new Vector3(0, stackedMoneyCount/2, 0), 10, 1, 1);
                 other.transform.localRotation = Quaternion.Euler(0, 0, 0);
             }
            
@@ -212,7 +254,7 @@ public class Ai : MonoBehaviour
     {
         if (!moving)
         {
-            if (other.tag == "MoneyBoxBlue")
+            if (other.tag == "MoneyBox")
             {
 
                 if (stackedMoneyCount > 0)
@@ -222,6 +264,7 @@ public class Ai : MonoBehaviour
 
                     if (throwMoneyTimer > 0.05f)
                     {
+                        GetComponent<CapsuleCollider>().isTrigger = true;
                         throwMoneyTimer = 0;
                         stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(other.transform.position, 2, 1, 1);
                         stackedMoneyCount -= 1;
@@ -249,7 +292,7 @@ public class Ai : MonoBehaviour
 
                         throwMoneyTimer = 0;
                         stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(other.transform.position, 2, 1, 1);
-
+                        GetComponent<CapsuleCollider>().isTrigger = true;
                         stackedMoneyCount -= 1;
 
                         totalMoneyCount -= 1;
@@ -279,12 +322,56 @@ public class Ai : MonoBehaviour
 
                                     }
                                 }
-                               
+                                if (transform.tag == "PlayerGreen")
+                                {
+                                    if (other.GetComponent<BuildingPlane>().color != "green")
+                                    {
+                                        other.GetComponent<BuildingPlane>().color = "green";
+                                        other.GetComponent<BuildingPlane>().ChangeColor();
+
+                                    }
+                                    if (other.GetComponent<BuildingPlane>().color == "green")
+                                    {
+                                        other.GetComponent<BuildingPlane>().CostUpdate();
+
+
+                                    }
+                                }
+                                if (transform.tag == "PlayerYellow")
+                                {
+                                    if (other.GetComponent<BuildingPlane>().color != "yellow")
+                                    {
+                                        other.GetComponent<BuildingPlane>().color = "yellow";
+                                        other.GetComponent<BuildingPlane>().ChangeColor();
+
+                                    }
+                                    if (other.GetComponent<BuildingPlane>().color == "yellow")
+                                    {
+                                        other.GetComponent<BuildingPlane>().CostUpdate();
+
+
+                                    }
+                                }
+
                             }
                             else
                             {
-                                other.GetComponent<BuildingPlane>().color = "red";
-                                other.GetComponent<BuildingPlane>().CostUpdate();
+                                if (transform.tag == "PlayerRed")
+                                {
+                                    other.GetComponent<BuildingPlane>().color = "red";
+                                    other.GetComponent<BuildingPlane>().CostUpdate();
+                                }
+                                if (transform.tag == "PlayerGreen")
+                                {
+                                    other.GetComponent<BuildingPlane>().color = "green";
+                                    other.GetComponent<BuildingPlane>().CostUpdate();
+                                }
+                                if (transform.tag == "PlayerYellow")
+                                {
+                                    other.GetComponent<BuildingPlane>().color = "yellow";
+                                    other.GetComponent<BuildingPlane>().CostUpdate();
+                                }
+
                             }
 
 
@@ -307,6 +394,7 @@ public class Ai : MonoBehaviour
                     reduceBankMoneyTimer += Time.deltaTime;
                     if (reduceBankMoneyTimer > 0.05f)
                     {
+                        GetComponent<CapsuleCollider>().isTrigger = true;
                         reduceBankMoneyTimer = 0;
                         bankMoneyCount -= 1;
                         bankMoneyText.text = "$ " + bankMoneyCount;
@@ -333,12 +421,56 @@ public class Ai : MonoBehaviour
 
                                     }
                                 }
+                                if (transform.tag == "PlayerGreen")
+                                {
+                                    if (other.GetComponent<BuildingPlane>().color != "green")
+                                    {
+                                        other.GetComponent<BuildingPlane>().color = "green";
+                                        other.GetComponent<BuildingPlane>().ChangeColor();
+
+                                    }
+                                    if (other.GetComponent<BuildingPlane>().color == "green")
+                                    {
+                                        other.GetComponent<BuildingPlane>().CostUpdate();
+
+
+                                    }
+                                }
+                                if (transform.tag == "PlayerYellow")
+                                {
+                                    if (other.GetComponent<BuildingPlane>().color != "yellow")
+                                    {
+                                        other.GetComponent<BuildingPlane>().color = "yellow";
+                                        other.GetComponent<BuildingPlane>().ChangeColor();
+
+                                    }
+                                    if (other.GetComponent<BuildingPlane>().color == "yellow")
+                                    {
+                                        other.GetComponent<BuildingPlane>().CostUpdate();
+
+
+                                    }
+                                }
 
                             }
                             else
                             {
-                                other.GetComponent<BuildingPlane>().color = "red";
-                                other.GetComponent<BuildingPlane>().CostUpdate();
+                                if (transform.tag == "PlayerRed")
+                                {
+                                    other.GetComponent<BuildingPlane>().color = "red";
+                                    other.GetComponent<BuildingPlane>().CostUpdate();
+                                }
+                                if (transform.tag == "PlayerGreen")
+                                {
+                                    other.GetComponent<BuildingPlane>().color = "green";
+                                    other.GetComponent<BuildingPlane>().CostUpdate();
+                                }
+                                if (transform.tag == "PlayerYellow")
+                                {
+                                    other.GetComponent<BuildingPlane>().color = "yellow";
+                                    other.GetComponent<BuildingPlane>().CostUpdate();
+                                }
+
                             }
 
 
@@ -353,5 +485,30 @@ public class Ai : MonoBehaviour
             }
         }
         
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+
+
+        if (collision.gameObject.tag == "PlayerBlue")
+        {
+            if (collision.gameObject.GetComponent<Character>().gm.stackedMoneyCount < stackedMoneyCount)
+            {
+                collision.gameObject.GetComponent<Character>().fall = true;
+                collision.gameObject.GetComponent<Character>().anim.SetInteger("movement", 2);
+            }
+            
+
+
+        }
+        if (collision.gameObject.tag == "PlayerRed" || collision.gameObject.tag == "PlayerGreen" || collision.gameObject.tag == "PlayerYellow")
+        {
+            if (stackedMoneyCount > collision.gameObject.GetComponent<Ai>().stackedMoneyCount)
+            {
+                collision.gameObject.GetComponent<Ai>().fall = true;
+                collision.gameObject.GetComponent<Ai>().anim.SetBool("fall", true);
+            }
+        }
+
     }
 }
