@@ -14,13 +14,57 @@ public class BuildingPlane : MonoBehaviour
     public Material[] materials;  // 1blue 2red 3green 4yellow
     public string color; 
     public List<GameObject> buildings;
+   [HideInInspector] public float saleTimer;
     void Start()
     {
         cost = startCost;
         costText.text = cost.ToString() + " $";
       
     }
+    private void Update()
+    {
+        if (color != null)
+        {
+            saleTimer += Time.deltaTime;
+            if (saleTimer > 1 /(startCost/200))
+            {
+                saleTimer = 0;
+                if (color == "red")
+                {
+                    var player = GameObject.FindGameObjectWithTag("PlayerRed");
+                    player.GetComponent<Ai>().bankMoneyCount += 1;
+                    player.GetComponent<Ai>().bankMoneyText.text = player.GetComponent<Ai>().bankMoneyText.text = "$ " + player.GetComponent<Ai>().bankMoneyCount;
+                    player.GetComponent<Ai>().totalMoneyCount += 1;
+                }
+                if (color == "green")
+                {
+                    var player = GameObject.FindGameObjectWithTag("PlayerGreen");
+                    player.GetComponent<Ai>().bankMoneyCount += 1;
+                    player.GetComponent<Ai>().bankMoneyText.text = player.GetComponent<Ai>().bankMoneyText.text = "$ " + player.GetComponent<Ai>().bankMoneyCount;
+                    player.GetComponent<Ai>().totalMoneyCount += 1;
+                }
+                if (color == "yellow")
+                {
+                    var player = GameObject.FindGameObjectWithTag("PlayerYellow");
+                    player.GetComponent<Ai>().bankMoneyCount += 1;
+                    player.GetComponent<Ai>().bankMoneyText.text = player.GetComponent<Ai>().bankMoneyText.text = "$ " + player.GetComponent<Ai>().bankMoneyCount;
+                    player.GetComponent<Ai>().totalMoneyCount += 1;
+                }
+                if (color == "blue")
+                {
+                    var player = GameObject.FindGameObjectWithTag("PlayerBlue");
+                    player.GetComponent<Character>().gm.bankMoneyCount += 1;
+                    player.GetComponent<Character>().gm.bankMoneyText.text = player.GetComponent<Character>().gm.bankMoneyText.text = "$ " + player.GetComponent<Character>().gm.bankMoneyCount;
+                    player.GetComponent<Character>().gm.totalMoneyCount += 1;
+                }
 
+
+            }
+           
+        }
+      
+
+    }
     public void ChangeColor()
     {
         for (int i = 0; i < buildings.Count; i++)

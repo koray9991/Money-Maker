@@ -24,7 +24,7 @@ public class MoneyController : MonoBehaviour
                 generateMoneyTimer += Time.deltaTime;
                 if (generateMoneyTimer >= randomMoneyTimer)
                 {
-                    var newBuilding = Instantiate(moneyPrefab, transform.position, Quaternion.Euler(0, 0, 0));
+                    var newBuilding = Instantiate(moneyPrefab, transform.position, Quaternion.Euler(-90, 0, 0));
                     newBuilding.transform.parent = gameObject.transform;
                     randomMoneyTimer = 0;
                     generateMoneyTimer = 0;

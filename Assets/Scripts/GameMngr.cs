@@ -13,7 +13,7 @@ public class GameMngr : MonoBehaviour
     {
         stackedMoneyText.text = "Stacked : " + stackedMoneyCount;
         totalMoneyText.text = "Total : " + totalMoneyCount;
-        bankMoneyText.text = "Bank " + bankMoneyCount;
+        bankMoneyText.text =  bankMoneyCount + "$ ";
     }
 
    

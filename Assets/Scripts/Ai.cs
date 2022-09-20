@@ -59,7 +59,7 @@ public class Ai : MonoBehaviour
             {
                 for (int i = 0; i < stackedMoneyCount; i++)
                 {
-                    stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(transform.position + new Vector3(Random.Range(-5f, 5f), 0.2f, Random.Range(-5f, 5f)), 2, 1, 1);
+                    stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(transform.position + new Vector3(Random.Range(-5f, 5f), 0.2f, Random.Range(-5f, 5f)), 2, 1, 0.5f);
                     stackedMoneyCount -= 1;
                     
                     totalMoneyCount -= 1;
@@ -79,7 +79,7 @@ public class Ai : MonoBehaviour
                 anim.SetBool("walk", true);
 
             }
-            if (fallTimer > 3.5f)
+            if (fallTimer > 1.75f)
             {
                 fall = false;
                 fallTimer = 0;
@@ -244,8 +244,9 @@ public class Ai : MonoBehaviour
                 stackedMoneys.Add(other.gameObject);
                 other.tag = "StackedMoney";
                 other.transform.parent = stackTransform;
-                other.transform.DOLocalJump(new Vector3(0, stackedMoneyCount/2, 0), 10, 1, 1);
-                other.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                other.transform.DOLocalMove(new Vector3(0, stackedMoneyCount, 0), 0.3f);
+                // other.transform.DOLocalJump(new Vector3(0, stackedMoneyCount/2, 0), 10, 1, 1);
+                other.transform.localRotation = Quaternion.Euler(-90, 0, 0);
             }
            
         }
@@ -266,12 +267,13 @@ public class Ai : MonoBehaviour
                     {
                         GetComponent<CapsuleCollider>().isTrigger = true;
                         throwMoneyTimer = 0;
-                        stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(other.transform.position, 2, 1, 1);
+                        // stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(other.transform.position, 2, 1, 1);
+                        stackTransform.GetChild(stackTransform.childCount - 1).transform.DOMove(other.transform.position, 0.1f);
                         stackedMoneyCount -= 1;
                         bankMoneyCount += 1;
                         bankMoneyText.text = "$ " + bankMoneyCount;
                         stackedMoneys.Remove(stackTransform.GetChild(stackTransform.childCount - 1).gameObject);
-                        Destroy(stackTransform.GetChild(stackTransform.childCount - 1).gameObject, 2);
+                        Destroy(stackTransform.GetChild(stackTransform.childCount - 1).gameObject, 0.5f);
                         stackTransform.GetChild(stackTransform.childCount - 1).transform.parent = null;
                     }
 
@@ -291,14 +293,15 @@ public class Ai : MonoBehaviour
                     {
 
                         throwMoneyTimer = 0;
-                        stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(other.transform.position, 2, 1, 1);
+                        stackTransform.GetChild(stackTransform.childCount - 1).transform.DOMove(other.transform.position, 0.1f);
+                        // stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(other.transform.position, 2, 1, 1);
                         GetComponent<CapsuleCollider>().isTrigger = true;
                         stackedMoneyCount -= 1;
 
                         totalMoneyCount -= 1;
 
                         stackedMoneys.Remove(stackTransform.GetChild(stackTransform.childCount - 1).gameObject);
-                        Destroy(stackTransform.GetChild(stackTransform.childCount - 1).gameObject, 2);
+                        Destroy(stackTransform.GetChild(stackTransform.childCount - 1).gameObject, 0.5f);
                         stackTransform.GetChild(stackTransform.childCount - 1).transform.parent = null;
                         other.GetComponent<BuildingPlane>().cost -= 1;                        
                         other.GetComponent<BuildingPlane>().costText.text = other.GetComponent<BuildingPlane>().cost.ToString() + " $";
@@ -492,7 +495,7 @@ public class Ai : MonoBehaviour
 
         if (collision.gameObject.tag == "PlayerBlue")
         {
-            if (collision.gameObject.GetComponent<Character>().gm.stackedMoneyCount < stackedMoneyCount)
+            if (collision.gameObject.GetComponent<Character>().gm.stackedMoneyCount <= stackedMoneyCount)
             {
                 collision.gameObject.GetComponent<Character>().fall = true;
                 collision.gameObject.GetComponent<Character>().anim.SetInteger("movement", 2);
@@ -503,7 +506,7 @@ public class Ai : MonoBehaviour
         }
         if (collision.gameObject.tag == "PlayerRed" || collision.gameObject.tag == "PlayerGreen" || collision.gameObject.tag == "PlayerYellow")
         {
-            if (stackedMoneyCount > collision.gameObject.GetComponent<Ai>().stackedMoneyCount)
+            if (stackedMoneyCount >= collision.gameObject.GetComponent<Ai>().stackedMoneyCount)
             {
                 collision.gameObject.GetComponent<Ai>().fall = true;
                 collision.gameObject.GetComponent<Ai>().anim.SetBool("fall", true);

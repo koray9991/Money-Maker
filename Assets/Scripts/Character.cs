@@ -19,6 +19,7 @@ public class Character : MonoBehaviour
     public bool moving;
     public bool fall;
     float fallTimer;
+    public GameObject maxText;
 
     private void Update()
     {
@@ -32,12 +33,16 @@ public class Character : MonoBehaviour
             {
                 for (int i = 0; i < gm.stackedMoneyCount; i++)
                 {
-                    stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(transform.position+new Vector3(Random.Range(-5f,5f),0.2f, Random.Range(-5f, 5f)), 2, 1, 1);
+
+                    stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(transform.position+new Vector3(Random.Range(-5f,5f),0.2f, Random.Range(-5f, 5f)), 2, 1, 0.5f);
+                    
                     gm.stackedMoneyCount -= 1;
                     gm.stackedMoneyText.text = "Stacked : " + gm.stackedMoneyCount;
                     gm.totalMoneyCount -= 1;
                     gm.totalMoneyText.text = "$ " + gm.totalMoneyCount;
-                   // stackedMoneys[stackTransform.childCount - 1].transform.tag = "Money";
+                    stackedMoneys[stackTransform.childCount - 1].transform.rotation = Quaternion.Euler(-90, 0, 0);
+                  //  stackedMoneys[stackTransform.childCount - 1].GetComponent<MeshRenderer>().enabled = true;
+                    // stackedMoneys[stackTransform.childCount - 1].transform.tag = "Money";
                     stackedMoneys.Remove(stackTransform.GetChild(stackTransform.childCount - 1).gameObject);
                     Destroy(stackTransform.GetChild(stackTransform.childCount - 1).gameObject, 2);
                     stackTransform.GetChild(stackTransform.childCount - 1).transform.parent = null;
@@ -51,7 +56,7 @@ public class Character : MonoBehaviour
                 anim.SetInteger("movement", 0);
                 
             }
-            if (fallTimer > 3.5f)
+            if (fallTimer > 1.75f)
             {
                 fall = false;
                 fallTimer = 0;
@@ -149,13 +154,14 @@ public class Character : MonoBehaviour
                     {
                         GetComponent<CapsuleCollider>().isTrigger = true;
                         throwMoneyTimer = 0;
-                        stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(other.transform.position, 2, 1, 1);                       
+                        //  stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(other.transform.position, 2, 1, 1);
+                         stackTransform.GetChild(stackTransform.childCount - 1).transform.DOMove(other.transform.position, 0.1f);
                         gm.stackedMoneyCount -= 1;
                         gm.stackedMoneyText.text = "Stacked : " + gm.stackedMoneyCount;
                         gm.totalMoneyCount -= 1;
                         gm.totalMoneyText.text = "Total : " + gm.totalMoneyCount;
                         stackedMoneys.Remove(stackTransform.GetChild(stackTransform.childCount - 1).gameObject);
-                        Destroy(stackTransform.GetChild(stackTransform.childCount - 1).gameObject,2);
+                        Destroy(stackTransform.GetChild(stackTransform.childCount - 1).gameObject,0.5f);
                         stackTransform.GetChild(stackTransform.childCount - 1).transform.parent = null;
                         other.GetComponent<BuildingPlane>().cost -= 1;
                         other.GetComponent<BuildingPlane>().costText.text = other.GetComponent<BuildingPlane>().cost.ToString() + " $";
@@ -200,7 +206,7 @@ public class Character : MonoBehaviour
 
 
             }
-            if (other.tag == "MoneyBox")
+            if (other.tag == "MoneyBoxBlue")
             {
 
                 if (gm.stackedMoneyCount > 0)
@@ -212,13 +218,14 @@ public class Character : MonoBehaviour
                     {
                         GetComponent<CapsuleCollider>().isTrigger = true;
                         throwMoneyTimer = 0;
-                        stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(other.transform.position, 2, 1, 1);
+                        stackTransform.GetChild(stackTransform.childCount - 1).transform.DOMove(other.transform.position, 0.1f);
+                       // stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(other.transform.position, 2, 1, 1);
                         gm.stackedMoneyCount -= 1;
                         gm.stackedMoneyText.text = "Stacked : " + gm.stackedMoneyCount;
                         gm.bankMoneyCount += 1;
                         gm.bankMoneyText.text = "$ " + gm.bankMoneyCount;
                         stackedMoneys.Remove(stackTransform.GetChild(stackTransform.childCount - 1).gameObject);
-                        Destroy(stackTransform.GetChild(stackTransform.childCount - 1).gameObject, 2);
+                        Destroy(stackTransform.GetChild(stackTransform.childCount - 1).gameObject, 0.5f);
                         stackTransform.GetChild(stackTransform.childCount - 1).transform.parent = null;
                     }
 
@@ -229,13 +236,19 @@ public class Character : MonoBehaviour
 
             }
         }
-           
+        if (other.tag == "Money" && gm.stackedMoneyCount >= gm.maxStackedCount && maxText.activeSelf == false)
+        {
+            maxText.SetActive(true);
+            LeanTween.delayedCall(gameObject, 0.5f, () => { maxText.SetActive(false); });
+
+        }
+
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Money")
         {
-            if (gm.stackedMoneyCount <= gm.maxStackedCount)
+            if (gm.stackedMoneyCount < gm.maxStackedCount)
             {
                 gm.stackedMoneyCount += 1;
                 gm.totalMoneyCount += 1;
@@ -244,9 +257,10 @@ public class Character : MonoBehaviour
                 stackedMoneys.Add(other.gameObject);
                 other.tag = "StackedMoney";
                 other.transform.parent = stackTransform;
-
-                other.transform.DOLocalJump(new Vector3(0, gm.stackedMoneyCount, 0), 0, 1, 0.2f);
-                other.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                //   other.GetComponent<MeshRenderer>().enabled = false;
+                other.transform.DOLocalMove(new Vector3(0, gm.stackedMoneyCount, 0), 0.3f);
+               // other.transform.DOLocalJump(new Vector3(0, gm.stackedMoneyCount, 0), 0, 1, 0.2f);
+                other.transform.localRotation = Quaternion.Euler(-90, 0, 0);
             }
            
         }
@@ -257,7 +271,7 @@ public class Character : MonoBehaviour
 
         if (collision.gameObject.tag == "PlayerRed" || collision.gameObject.tag == "PlayerGreen" || collision.gameObject.tag == "PlayerYellow")
         {
-            if (gm.stackedMoneyCount > collision.gameObject.GetComponent<Ai>().stackedMoneyCount)
+            if (gm.stackedMoneyCount >= collision.gameObject.GetComponent<Ai>().stackedMoneyCount)
             {
                 collision.gameObject.GetComponent<Ai>().fall = true;
                 collision.gameObject.GetComponent<Ai>().anim.SetBool("fall", true);
