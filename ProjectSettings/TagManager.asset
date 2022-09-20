@@ -17,6 +17,7 @@ TagManager:
   - MoneyBoxRed
   - PlayerGreen
   - PlayerYellow
+  - GameManager
   layers:
   - Default
   - TransparentFX

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class BuildingPlane : MonoBehaviour
 {
+    public GameMngr gm;
     public float startCost;
     public float cost;
     public Text costText;
@@ -19,6 +20,7 @@ public class BuildingPlane : MonoBehaviour
     {
         cost = startCost;
         costText.text = cost.ToString() + " $";
+        gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameMngr>();
       
     }
     private void Update()
@@ -26,40 +28,49 @@ public class BuildingPlane : MonoBehaviour
         if (color != null)
         {
             saleTimer += Time.deltaTime;
-            if (saleTimer > 1 /(startCost/200))
+            if (color != "blue")
             {
-                saleTimer = 0;
-                if (color == "red")
+                if (saleTimer > 1 / (startCost / 200))
                 {
-                    var player = GameObject.FindGameObjectWithTag("PlayerRed");
-                    player.GetComponent<Ai>().bankMoneyCount += 1;
-                    player.GetComponent<Ai>().bankMoneyText.text = player.GetComponent<Ai>().bankMoneyText.text = "$ " + player.GetComponent<Ai>().bankMoneyCount;
-                    player.GetComponent<Ai>().totalMoneyCount += 1;
+                    saleTimer = 0;
+                    if (color == "red")
+                    {
+                        var player = GameObject.FindGameObjectWithTag("PlayerRed");
+                        player.GetComponent<Ai>().bankMoneyCount += 1;
+                        player.GetComponent<Ai>().bankMoneyText.text = player.GetComponent<Ai>().bankMoneyText.text = "$ " + player.GetComponent<Ai>().bankMoneyCount;
+                        player.GetComponent<Ai>().totalMoneyCount += 1;
+                    }
+                    if (color == "green")
+                    {
+                        var player = GameObject.FindGameObjectWithTag("PlayerGreen");
+                        player.GetComponent<Ai>().bankMoneyCount += 1;
+                        player.GetComponent<Ai>().bankMoneyText.text = player.GetComponent<Ai>().bankMoneyText.text = "$ " + player.GetComponent<Ai>().bankMoneyCount;
+                        player.GetComponent<Ai>().totalMoneyCount += 1;
+                    }
+                    if (color == "yellow")
+                    {
+                        var player = GameObject.FindGameObjectWithTag("PlayerYellow");
+                        player.GetComponent<Ai>().bankMoneyCount += 1;
+                        player.GetComponent<Ai>().bankMoneyText.text = player.GetComponent<Ai>().bankMoneyText.text = "$ " + player.GetComponent<Ai>().bankMoneyCount;
+                        player.GetComponent<Ai>().totalMoneyCount += 1;
+                    }
+                    
+
+
                 }
-                if (color == "green")
+            }
+            if (color == "blue")
+            {
+                if (saleTimer > 1 / ((gm.incomeLevel/3) *(startCost / 200)))
                 {
-                    var player = GameObject.FindGameObjectWithTag("PlayerGreen");
-                    player.GetComponent<Ai>().bankMoneyCount += 1;
-                    player.GetComponent<Ai>().bankMoneyText.text = player.GetComponent<Ai>().bankMoneyText.text = "$ " + player.GetComponent<Ai>().bankMoneyCount;
-                    player.GetComponent<Ai>().totalMoneyCount += 1;
-                }
-                if (color == "yellow")
-                {
-                    var player = GameObject.FindGameObjectWithTag("PlayerYellow");
-                    player.GetComponent<Ai>().bankMoneyCount += 1;
-                    player.GetComponent<Ai>().bankMoneyText.text = player.GetComponent<Ai>().bankMoneyText.text = "$ " + player.GetComponent<Ai>().bankMoneyCount;
-                    player.GetComponent<Ai>().totalMoneyCount += 1;
-                }
-                if (color == "blue")
-                {
+                    saleTimer = 0;
                     var player = GameObject.FindGameObjectWithTag("PlayerBlue");
                     player.GetComponent<Character>().gm.bankMoneyCount += 1;
                     player.GetComponent<Character>().gm.bankMoneyText.text = player.GetComponent<Character>().gm.bankMoneyText.text = "$ " + player.GetComponent<Character>().gm.bankMoneyCount;
                     player.GetComponent<Character>().gm.totalMoneyCount += 1;
                 }
-
-
             }
+           
            
         }
       

@@ -208,7 +208,7 @@ public class Character : MonoBehaviour
             }
             if (other.tag == "MoneyBoxBlue")
             {
-
+                gm.upgradesPanel.SetActive(true);
                 if (gm.stackedMoneyCount > 0)
                 {
 
@@ -280,5 +280,12 @@ public class Character : MonoBehaviour
 
                
        
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "MoneyBoxBlue")
+        {
+            gm.upgradesPanel.SetActive(false);
+        }
     }
 }
