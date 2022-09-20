@@ -495,7 +495,7 @@ public class Ai : MonoBehaviour
 
         if (collision.gameObject.tag == "PlayerBlue")
         {
-            if (collision.gameObject.GetComponent<Character>().gm.stackedMoneyCount <= stackedMoneyCount)
+            if (collision.gameObject.GetComponent<Character>().gm.stackedMoneyCount < stackedMoneyCount)
             {
                 collision.gameObject.GetComponent<Character>().fall = true;
                 collision.gameObject.GetComponent<Character>().anim.SetInteger("movement", 2);
@@ -506,7 +506,7 @@ public class Ai : MonoBehaviour
         }
         if (collision.gameObject.tag == "PlayerRed" || collision.gameObject.tag == "PlayerGreen" || collision.gameObject.tag == "PlayerYellow")
         {
-            if (stackedMoneyCount >= collision.gameObject.GetComponent<Ai>().stackedMoneyCount)
+            if (stackedMoneyCount > collision.gameObject.GetComponent<Ai>().stackedMoneyCount)
             {
                 collision.gameObject.GetComponent<Ai>().fall = true;
                 collision.gameObject.GetComponent<Ai>().anim.SetBool("fall", true);

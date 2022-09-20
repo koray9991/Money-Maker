@@ -271,7 +271,7 @@ public class Character : MonoBehaviour
 
         if (collision.gameObject.tag == "PlayerRed" || collision.gameObject.tag == "PlayerGreen" || collision.gameObject.tag == "PlayerYellow")
         {
-            if (gm.stackedMoneyCount >= collision.gameObject.GetComponent<Ai>().stackedMoneyCount)
+            if (gm.stackedMoneyCount > collision.gameObject.GetComponent<Ai>().stackedMoneyCount)
             {
                 collision.gameObject.GetComponent<Ai>().fall = true;
                 collision.gameObject.GetComponent<Ai>().anim.SetBool("fall", true);
