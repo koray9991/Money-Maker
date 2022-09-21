@@ -218,14 +218,15 @@ public class Character : MonoBehaviour
                     {
                         GetComponent<CapsuleCollider>().isTrigger = true;
                         throwMoneyTimer = 0;
-                        stackTransform.GetChild(stackTransform.childCount - 1).transform.DOMove(other.transform.position, 0.1f);
-                       // stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(other.transform.position, 2, 1, 1);
+                        //  stackTransform.GetChild(stackTransform.childCount - 1).transform.DOMove(other.transform.position, 0.1f);
+                        other.transform.GetChild(0).transform.DOLocalRotateQuaternion(Quaternion.Euler(-90, -90, 0), 0.2f);
+                       stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(other.transform.position+new Vector3(0,-0.5f,0), 3, 1, 1);
                         gm.stackedMoneyCount -= 1;
                         gm.stackedMoneyText.text = "Stacked : " + gm.stackedMoneyCount;
                         gm.bankMoneyCount += 1;
                         gm.bankMoneyText.text = "$ " + gm.bankMoneyCount;
                         stackedMoneys.Remove(stackTransform.GetChild(stackTransform.childCount - 1).gameObject);
-                        Destroy(stackTransform.GetChild(stackTransform.childCount - 1).gameObject, 0.5f);
+                        Destroy(stackTransform.GetChild(stackTransform.childCount - 1).gameObject, 2f);
                         stackTransform.GetChild(stackTransform.childCount - 1).transform.parent = null;
                     }
 
@@ -271,7 +272,7 @@ public class Character : MonoBehaviour
 
         if (collision.gameObject.tag == "PlayerRed" || collision.gameObject.tag == "PlayerGreen" || collision.gameObject.tag == "PlayerYellow")
         {
-            if (gm.stackedMoneyCount > collision.gameObject.GetComponent<Ai>().stackedMoneyCount)
+            if (gm.stackedMoneyCount >= collision.gameObject.GetComponent<Ai>().stackedMoneyCount && gm.stackedMoneyCount !=0)
             {
                 collision.gameObject.GetComponent<Ai>().fall = true;
                 collision.gameObject.GetComponent<Ai>().anim.SetBool("fall", true);
@@ -286,6 +287,7 @@ public class Character : MonoBehaviour
         if (other.tag == "MoneyBoxBlue")
         {
             gm.upgradesPanel.SetActive(false);
+            other.transform.GetChild(0).transform.DOLocalRotateQuaternion(Quaternion.Euler(-90, 0, 0), 0.2f);
         }
     }
 }

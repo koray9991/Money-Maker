@@ -52,7 +52,7 @@ public class Ai : MonoBehaviour
     }
     void FixedUpdate()
     {
-        
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
         if (fall)
         {
             if (stackedMoneyCount > 0)
@@ -267,13 +267,14 @@ public class Ai : MonoBehaviour
                     {
                         GetComponent<CapsuleCollider>().isTrigger = true;
                         throwMoneyTimer = 0;
-                        // stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(other.transform.position, 2, 1, 1);
-                        stackTransform.GetChild(stackTransform.childCount - 1).transform.DOMove(other.transform.position, 0.1f);
+                        other.transform.GetChild(0).transform.DOLocalRotateQuaternion(Quaternion.Euler(-90, -90, 0), 0.2f);
+                        stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(other.transform.position + new Vector3(0, -2f, 0), 3, 1, 1);
+                        // stackTransform.GetChild(stackTransform.childCount - 1).transform.DOMove(other.transform.position, 0.1f);
                         stackedMoneyCount -= 1;
                         bankMoneyCount += 1;
                         bankMoneyText.text = "$ " + bankMoneyCount;
                         stackedMoneys.Remove(stackTransform.GetChild(stackTransform.childCount - 1).gameObject);
-                        Destroy(stackTransform.GetChild(stackTransform.childCount - 1).gameObject, 0.5f);
+                        Destroy(stackTransform.GetChild(stackTransform.childCount - 1).gameObject, 2f);
                         stackTransform.GetChild(stackTransform.childCount - 1).transform.parent = null;
                     }
 
@@ -289,7 +290,7 @@ public class Ai : MonoBehaviour
                 {
                     moneyThrowBool = true;
 
-                    if (throwMoneyTimer > 0.05f)
+                    if (throwMoneyTimer > 0.02f)
                     {
 
                         throwMoneyTimer = 0;
@@ -395,7 +396,7 @@ public class Ai : MonoBehaviour
                 if (stackedMoneyCount == 0 && bankMoneyCount > 0)
                 {
                     reduceBankMoneyTimer += Time.deltaTime;
-                    if (reduceBankMoneyTimer > 0.05f)
+                    if (reduceBankMoneyTimer > 0.02f)
                     {
                         GetComponent<CapsuleCollider>().isTrigger = true;
                         reduceBankMoneyTimer = 0;
@@ -495,7 +496,7 @@ public class Ai : MonoBehaviour
 
         if (collision.gameObject.tag == "PlayerBlue")
         {
-            if (collision.gameObject.GetComponent<Character>().gm.stackedMoneyCount < stackedMoneyCount)
+            if (collision.gameObject.GetComponent<Character>().gm.stackedMoneyCount <= stackedMoneyCount && stackedMoneyCount != 0)
             {
                 collision.gameObject.GetComponent<Character>().fall = true;
                 collision.gameObject.GetComponent<Character>().anim.SetInteger("movement", 2);
@@ -506,12 +507,21 @@ public class Ai : MonoBehaviour
         }
         if (collision.gameObject.tag == "PlayerRed" || collision.gameObject.tag == "PlayerGreen" || collision.gameObject.tag == "PlayerYellow")
         {
-            if (stackedMoneyCount > collision.gameObject.GetComponent<Ai>().stackedMoneyCount)
+            
+            if (stackedMoneyCount >= collision.gameObject.GetComponent<Ai>().stackedMoneyCount && stackedMoneyCount !=0)
             {
                 collision.gameObject.GetComponent<Ai>().fall = true;
                 collision.gameObject.GetComponent<Ai>().anim.SetBool("fall", true);
             }
         }
 
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "MoneyBox")
+        {
+           
+            other.transform.GetChild(0).transform.DOLocalRotateQuaternion(Quaternion.Euler(-90, 0, 0), 0.2f);
+        }
     }
 }

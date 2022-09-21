@@ -16,6 +16,8 @@ public class BuildingPlane : MonoBehaviour
     public string color; 
     public List<GameObject> buildings;
    [HideInInspector] public float saleTimer;
+    public GameObject textOneDollar;
+    public GameObject canvasIncome;
     void Start()
     {
         cost = startCost;
@@ -30,15 +32,21 @@ public class BuildingPlane : MonoBehaviour
             saleTimer += Time.deltaTime;
             if (color != "blue")
             {
-                if (saleTimer > 1 / (startCost / 200))
+                if (saleTimer > 1 / (startCost / 300))
                 {
                     saleTimer = 0;
+                    
                     if (color == "red")
                     {
                         var player = GameObject.FindGameObjectWithTag("PlayerRed");
                         player.GetComponent<Ai>().bankMoneyCount += 1;
                         player.GetComponent<Ai>().bankMoneyText.text = player.GetComponent<Ai>().bankMoneyText.text = "$ " + player.GetComponent<Ai>().bankMoneyCount;
                         player.GetComponent<Ai>().totalMoneyCount += 1;
+                        var newText = Instantiate(textOneDollar, transform.position, Quaternion.identity);
+                        newText.transform.parent = canvasIncome.transform;
+                        newText.transform.localPosition = new Vector3(0, buildingLevel + 2.5f, 0);
+                        newText.GetComponent<Text>().color = Color.red;
+                        Destroy(newText, 1f);
                     }
                     if (color == "green")
                     {
@@ -46,6 +54,11 @@ public class BuildingPlane : MonoBehaviour
                         player.GetComponent<Ai>().bankMoneyCount += 1;
                         player.GetComponent<Ai>().bankMoneyText.text = player.GetComponent<Ai>().bankMoneyText.text = "$ " + player.GetComponent<Ai>().bankMoneyCount;
                         player.GetComponent<Ai>().totalMoneyCount += 1;
+                        var newText = Instantiate(textOneDollar, transform.position, Quaternion.identity);
+                        newText.transform.parent = canvasIncome.transform;
+                        newText.transform.localPosition = new Vector3(0, buildingLevel + 2.5f, 0);
+                        newText.GetComponent<Text>().color = Color.green;
+                        Destroy(newText, 1f);
                     }
                     if (color == "yellow")
                     {
@@ -53,6 +66,11 @@ public class BuildingPlane : MonoBehaviour
                         player.GetComponent<Ai>().bankMoneyCount += 1;
                         player.GetComponent<Ai>().bankMoneyText.text = player.GetComponent<Ai>().bankMoneyText.text = "$ " + player.GetComponent<Ai>().bankMoneyCount;
                         player.GetComponent<Ai>().totalMoneyCount += 1;
+                        var newText = Instantiate(textOneDollar, transform.position, Quaternion.identity);
+                        newText.transform.parent = canvasIncome.transform;
+                        newText.transform.localPosition = new Vector3(0, buildingLevel + 2.5f, 0);
+                        newText.GetComponent<Text>().color = Color.yellow;
+                        Destroy(newText, 1f);
                     }
                     
 
@@ -61,13 +79,19 @@ public class BuildingPlane : MonoBehaviour
             }
             if (color == "blue")
             {
-                if (saleTimer > 1 / ((gm.incomeLevel/3) *(startCost / 200)))
+                if (saleTimer > 1 / ((gm.incomeLevel/3) *(startCost / 300)))
                 {
                     saleTimer = 0;
                     var player = GameObject.FindGameObjectWithTag("PlayerBlue");
                     player.GetComponent<Character>().gm.bankMoneyCount += 1;
                     player.GetComponent<Character>().gm.bankMoneyText.text = player.GetComponent<Character>().gm.bankMoneyText.text = "$ " + player.GetComponent<Character>().gm.bankMoneyCount;
                     player.GetComponent<Character>().gm.totalMoneyCount += 1;
+                    var newText = Instantiate(textOneDollar, transform.position, Quaternion.identity);
+                    newText.transform.parent = canvasIncome.transform;
+                    newText.transform.localPosition = new Vector3(0, buildingLevel+2.5f, 0);
+                    newText.GetComponent<Text>().color = Color.blue;
+                    Destroy(newText, 1f);
+
                 }
             }
            
@@ -113,6 +137,7 @@ public class BuildingPlane : MonoBehaviour
             {
                 var newBuilding = Instantiate(buildingList[0], buildingGround.position + new Vector3(0, 10, 0f), Quaternion.Euler(0, 90, 0));
                 newBuilding.transform.parent = gameObject.transform;
+               
                 buildings.Add(newBuilding);
                 for (int i = 0; i < buildings.Count; i++)
                 {
@@ -138,7 +163,15 @@ public class BuildingPlane : MonoBehaviour
                 }
 
                 buildingLevel++;
-                cost = buildingLevel * startCost + startCost;
+            if (buildingLevel != 1)
+            {
+                for (int i = 0; i < buildings.Count - 1; i++)
+                {
+                    buildings[i].transform.GetChild(0).gameObject.SetActive(false);
+                }
+            }
+           
+               cost = buildingLevel * startCost + startCost;
                 startCost = cost;
                 costText.text = cost.ToString() + " $";
                 amountImage.fillAmount = 1 - (cost / startCost);
