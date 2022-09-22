@@ -20,9 +20,17 @@ public class Character : MonoBehaviour
     public bool fall;
     float fallTimer;
     public GameObject maxText;
-
+    public Transform moneyBox;
     private void Update()
     {
+        if (Vector3.Distance(transform.position, moneyBox.position) > 2)
+        {
+            if (gm.upgradesPanel.activeSelf)
+            {
+                gm.upgradesPanel.SetActive(false);
+             //   other.transform.GetChild(0).transform.DOLocalRotateQuaternion(Quaternion.Euler(-90, 0, 0), 0.2f);
+            }
+        }
         if (moneyThrowBool)
         {
             throwMoneyTimer += Time.deltaTime;
@@ -34,8 +42,8 @@ public class Character : MonoBehaviour
                 for (int i = 0; i < gm.stackedMoneyCount; i++)
                 {
 
-                    stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(transform.position+new Vector3(Random.Range(-5f,5f),0.2f, Random.Range(-5f, 5f)), 2, 1, 0.5f);
-                    
+                    stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(transform.position+new Vector3(Random.Range(-5f,5f),0.35f, Random.Range(-5f, 5f)), 2, 1, 0.5f);
+                    stackedMoneys[stackTransform.childCount - 1].GetComponent<Money>().StartCoroutine(stackedMoneys[stackTransform.childCount - 1].GetComponent<Money>().Tag());
                     gm.stackedMoneyCount -= 1;
                     gm.stackedMoneyText.text = "Stacked : " + gm.stackedMoneyCount;
                     gm.totalMoneyCount -= 1;
@@ -44,7 +52,7 @@ public class Character : MonoBehaviour
                   //  stackedMoneys[stackTransform.childCount - 1].GetComponent<MeshRenderer>().enabled = true;
                     // stackedMoneys[stackTransform.childCount - 1].transform.tag = "Money";
                     stackedMoneys.Remove(stackTransform.GetChild(stackTransform.childCount - 1).gameObject);
-                    Destroy(stackTransform.GetChild(stackTransform.childCount - 1).gameObject, 2);
+                   // Destroy(stackTransform.GetChild(stackTransform.childCount - 1).gameObject, 2);
                     stackTransform.GetChild(stackTransform.childCount - 1).transform.parent = null;
                 }
             }
@@ -154,8 +162,8 @@ public class Character : MonoBehaviour
                     {
                         GetComponent<CapsuleCollider>().isTrigger = true;
                         throwMoneyTimer = 0;
-                        //  stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(other.transform.position, 2, 1, 1);
-                         stackTransform.GetChild(stackTransform.childCount - 1).transform.DOMove(other.transform.position, 0.1f);
+                          stackTransform.GetChild(stackTransform.childCount - 1).transform.DOJump(other.transform.position+new Vector3(0,-3,0), 5, 1, 1);
+                       //  stackTransform.GetChild(stackTransform.childCount - 1).transform.DOMove(other.transform.position, 0.1f);
                         gm.stackedMoneyCount -= 1;
                         gm.stackedMoneyText.text = "Stacked : " + gm.stackedMoneyCount;
                         gm.totalMoneyCount -= 1;
@@ -236,7 +244,9 @@ public class Character : MonoBehaviour
 
 
             }
+           
         }
+
         if (other.tag == "Money" && gm.stackedMoneyCount >= gm.maxStackedCount && maxText.activeSelf == false)
         {
             maxText.SetActive(true);
@@ -260,10 +270,10 @@ public class Character : MonoBehaviour
                 other.transform.parent = stackTransform;
                 //   other.GetComponent<MeshRenderer>().enabled = false;
                 other.transform.DOLocalMove(new Vector3(0, gm.stackedMoneyCount, 0), 0.3f);
-               // other.transform.DOLocalJump(new Vector3(0, gm.stackedMoneyCount, 0), 0, 1, 0.2f);
+                // other.transform.DOLocalJump(new Vector3(0, gm.stackedMoneyCount, 0), 0, 1, 0.2f);
                 other.transform.localRotation = Quaternion.Euler(-90, 0, 0);
             }
-           
+
         }
     }
     private void OnCollisionEnter(Collision collision)

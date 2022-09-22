@@ -7,6 +7,8 @@ public class BuildingPlane : MonoBehaviour
     public GameMngr gm;
     public float startCost;
     public float cost;
+    public float upgradeCost;
+    public Text upgradeCostText;
     public Text costText;
     public Image amountImage;
     public int buildingLevel;
@@ -170,8 +172,8 @@ public class BuildingPlane : MonoBehaviour
                     buildings[i].transform.GetChild(0).gameObject.SetActive(false);
                 }
             }
-           
-               cost = buildingLevel * startCost + startCost;
+
+            cost = buildingLevel * 100;
                 startCost = cost;
                 costText.text = cost.ToString() + " $";
                 amountImage.fillAmount = 1 - (cost / startCost);
