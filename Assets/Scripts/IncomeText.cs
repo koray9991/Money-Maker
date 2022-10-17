@@ -4,20 +4,26 @@ using UnityEngine;
 using UnityEngine.UI;
 public class IncomeText : MonoBehaviour
 {
-    RectTransform rectTransform;
+    Transform tr;
+   // RectTransform rectTransform;
    [HideInInspector] public float y;
     public float changeY;
+    public float rotate;
+    public float destroyTimer;
     void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
+        //rectTransform = GetComponent<RectTransform>();
+        tr = GetComponent<Transform>();
+        tr.localRotation = Quaternion.Euler(90, 0, 0);
+        Destroy(gameObject, destroyTimer);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         y += changeY;
-        rectTransform.position = new Vector3(rectTransform.position.x, rectTransform.position.y+y, rectTransform.position.z);
-        GetComponent<Text>().color = new Color(GetComponent<Text>().color.r, GetComponent<Text>().color.g, GetComponent<Text>().color.b, 1 - y*10);
-
+        tr.position = new Vector3(tr.position.x, tr.position.y+y, tr.position.z);
+       // GetComponent<Image>().color = new Color(GetComponent<Image>().color.r, GetComponent<Image>().color.g, GetComponent<Image>().color.b, 1 - y*5);
+        transform.Rotate(0, 0, -rotate);
     }
 }
