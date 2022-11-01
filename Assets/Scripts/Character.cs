@@ -51,12 +51,12 @@ public class Character : MonoBehaviour
             
             for (int i = 0; i < bankStack.Length; i++)
             {
-                bankStack[i].transform.localScale = new Vector3(bankStack[i].transform.localScale.x, 0, bankStack[i].transform.localScale.z);
+                bankStack[i].transform.localScale = new Vector3(bankStack[i].transform.localScale.x, bankStack[i].transform.localScale.y,0 );
                 
             }
             bankStackMode = 0;
-            bankStack[bankStackMode].transform.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BaseMap", new Vector2(1, bankStack[bankStackMode].transform.localScale.y/3));
-            bankStack[bankStackMode].transform.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BumpMap", new Vector2(1, bankStack[bankStackMode].transform.localScale.y/3));
+            bankStack[bankStackMode].transform.GetComponent<MeshRenderer>().materials[0].SetTextureScale("_BaseMap", new Vector2(1, bankStack[bankStackMode].transform.localScale.z/ 300));
+            bankStack[bankStackMode].transform.GetComponent<MeshRenderer>().materials[0].SetTextureScale("_BumpMap", new Vector2(1, bankStack[bankStackMode].transform.localScale.z/ 300));
         }
         if (fall)
         {
@@ -161,9 +161,9 @@ public class Character : MonoBehaviour
                             other.GetComponent<BuildingPlane>().cost -= 9;
                             for (int i = 0; i < bankStack.Length; i++)
                             {
-                                bankStack[i].transform.localScale += new Vector3(0, -moneyScaleChange, 0);
-                                bankStack[bankStackMode].transform.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BaseMap", new Vector2(1, bankStack[bankStackMode].transform.localScale.y/3));
-                                bankStack[bankStackMode].transform.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BumpMap", new Vector2(1, bankStack[bankStackMode].transform.localScale.y/3));
+                                bankStack[i].transform.localScale += new Vector3(0, 0, -moneyScaleChange);
+                                bankStack[bankStackMode].transform.GetComponent<MeshRenderer>().materials[0].SetTextureScale("_BaseMap", new Vector2(1, bankStack[bankStackMode].transform.localScale.z/ 300));
+                                bankStack[bankStackMode].transform.GetComponent<MeshRenderer>().materials[0].SetTextureScale("_BumpMap", new Vector2(1, bankStack[bankStackMode].transform.localScale.z/ 300));
                             }
 
                            
@@ -174,9 +174,9 @@ public class Character : MonoBehaviour
                             gm.bankMoneyCount -= 1;
                             gm.totalMoneyCount -= 1;
                             other.GetComponent<BuildingPlane>().cost -= 1;
-                            bankStack[bankStackMode].transform.localScale += new Vector3(0, -moneyScaleChange, 0);
-                            bankStack[bankStackMode].transform.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BaseMap", new Vector2(1, bankStack[bankStackMode].transform.localScale.y/3));
-                            bankStack[bankStackMode].transform.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BumpMap", new Vector2(1, bankStack[bankStackMode].transform.localScale.y/3));
+                            bankStack[bankStackMode].transform.localScale += new Vector3(0, 0, -moneyScaleChange);
+                            bankStack[bankStackMode].transform.GetComponent<MeshRenderer>().materials[0].SetTextureScale("_BaseMap", new Vector2(1, bankStack[bankStackMode].transform.localScale.z/ 300));
+                            bankStack[bankStackMode].transform.GetComponent<MeshRenderer>().materials[0].SetTextureScale("_BumpMap", new Vector2(1, bankStack[bankStackMode].transform.localScale.z/ 300));
 
                             bankStackMode -= 1;
                             if (bankStackMode == -1) { bankStackMode = 8; }
@@ -295,9 +295,9 @@ public class Character : MonoBehaviour
                         {
                             bankStackMode = 8;
                         }
-                        bankStack[bankStackMode].transform.localScale += new Vector3(0, -moneyScaleChange, 0);
-                        bankStack[bankStackMode].transform.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BaseMap", new Vector2(1, bankStack[bankStackMode].transform.localScale.y / 3));
-                        bankStack[bankStackMode].transform.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BumpMap", new Vector2(1, bankStack[bankStackMode].transform.localScale.y / 3));
+                        bankStack[bankStackMode].transform.localScale += new Vector3(0, 0, -moneyScaleChange);
+                        bankStack[bankStackMode].transform.GetComponent<MeshRenderer>().materials[0].SetTextureScale("_BaseMap", new Vector2(1, bankStack[bankStackMode].transform.localScale.z / 300));
+                        bankStack[bankStackMode].transform.GetComponent<MeshRenderer>().materials[0].SetTextureScale("_BumpMap", new Vector2(1, bankStack[bankStackMode].transform.localScale.z / 300));
 
 
                         gm.totalMoneyCount -= 1;
@@ -441,9 +441,9 @@ public class Character : MonoBehaviour
                         stackedMoneys.Remove(stackTransform.GetChild(stackTransform.childCount - 1).gameObject);
                         Destroy(stackTransform.GetChild(stackTransform.childCount - 1).gameObject, 2f);
                         stackTransform.GetChild(stackTransform.childCount - 1).transform.parent = null;
-                        bankStack[bankStackMode].transform.localScale += new Vector3(0, moneyScaleChange, 0);
-                        bankStack[bankStackMode].transform.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BaseMap", new Vector2(1, bankStack[bankStackMode].transform.localScale.y / 3));
-                        bankStack[bankStackMode].transform.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BumpMap", new Vector2(1, bankStack[bankStackMode].transform.localScale.y / 3));
+                        bankStack[bankStackMode].transform.localScale += new Vector3(0, 0, moneyScaleChange);
+                        bankStack[bankStackMode].transform.GetComponent<MeshRenderer>().materials[0].SetTextureScale("_BaseMap", new Vector2(1, bankStack[bankStackMode].transform.localScale.z / 300));
+                        bankStack[bankStackMode].transform.GetComponent<MeshRenderer>().materials[0].SetTextureScale("_BumpMap", new Vector2(1, bankStack[bankStackMode].transform.localScale.z / 300));
                         //moneyStack.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BaseMap", new Vector2(1, moneyStack.GetComponent<MeshRenderer>().materials[1].GetTextureScale("_BaseMap").y + 1));
                         //moneyStack.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BumpMap", new Vector2(1, moneyStack.GetComponent<MeshRenderer>().materials[1].GetTextureScale("_BumpMap").y + 1));
                         bankStackMode += 1;
@@ -482,10 +482,10 @@ public class Character : MonoBehaviour
                 other.transform.parent = stackTransform;
                 //   other.GetComponent<MeshRenderer>().enabled = false;
                 other.transform.DOLocalMove(new Vector3(0, gm.stackedMoneyCount, 0), 0.2f);
-                other.transform.GetChild(0).gameObject.SetActive(true);
-                other.transform.GetChild(1).gameObject.SetActive(true);
-                other.transform.GetChild(0).GetComponent<TrailRenderer>().enabled = true;
-                other.transform.GetChild(1).GetComponent<TrailRenderer>().enabled = true;
+                //other.transform.GetChild(0).gameObject.SetActive(true);
+                //other.transform.GetChild(1).gameObject.SetActive(true);
+                //other.transform.GetChild(0).GetComponent<TrailRenderer>().enabled = true;
+                //other.transform.GetChild(1).GetComponent<TrailRenderer>().enabled = true;
                 //other.transform.GetChild(0).GetComponent<TrailRenderer>().startColor = new Color(0, 0, 1, 1);
                 //other.transform.GetChild(0).GetComponent<TrailRenderer>().endColor = new Color(0, 0, 1, 0);
                 //other.transform.GetChild(1).GetComponent<TrailRenderer>().startColor = new Color(0, 0, 1, 1);

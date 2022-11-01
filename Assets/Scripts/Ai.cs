@@ -126,7 +126,7 @@ public class Ai : MonoBehaviour
            
             for (int i = 0; i < bankStack.Length; i++)
             {
-               bankStack[i].transform.localScale = new Vector3(bankStack[i].transform.localScale.x, 0, bankStack[i].transform.localScale.z);
+               bankStack[i].transform.localScale = new Vector3(bankStack[i].transform.localScale.x, bankStack[i].transform.localScale.y, 0);
 
             }
             bankStackMode = 0;
@@ -464,10 +464,10 @@ public class Ai : MonoBehaviour
                 other.transform.DOLocalMove(new Vector3(0, stackedMoneyCount, 0), 0.3f);
                 // other.transform.DOLocalJump(new Vector3(0, stackedMoneyCount/2, 0), 10, 1, 1);
                 other.transform.localRotation = Quaternion.Euler(-90, 0, 0);
-                other.transform.GetChild(0).gameObject.SetActive(true);
-                other.transform.GetChild(1).gameObject.SetActive(true);
-                other.transform.GetChild(0).GetComponent<TrailRenderer>().enabled = true;
-                other.transform.GetChild(1).GetComponent<TrailRenderer>().enabled = true;
+                //other.transform.GetChild(0).gameObject.SetActive(true);
+                //other.transform.GetChild(1).gameObject.SetActive(true);
+                //other.transform.GetChild(0).GetComponent<TrailRenderer>().enabled = true;
+                //other.transform.GetChild(1).GetComponent<TrailRenderer>().enabled = true;
             }
 
         }
@@ -494,7 +494,7 @@ public class Ai : MonoBehaviour
                         stackedMoneyCount -= 1;
                         bankMoneyCount += 1;
                         bankMoneyText.text = "$ " + bankMoneyCount;
-                        bankStack[bankStackMode].transform.localScale += new Vector3(0, moneyScaleChange, 0);
+                        bankStack[bankStackMode].transform.localScale += new Vector3(0, 0, moneyScaleChange);
 
                         bankStackMode += 1;
                         if (bankStackMode == 9) { bankStackMode = 0; }
@@ -638,7 +638,7 @@ public class Ai : MonoBehaviour
                             {
                                 bankStackMode = 8;
                             }
-                            bankStack[bankStackMode].transform.localScale += new Vector3(0, -moneyScaleChange, 0);
+                            bankStack[bankStackMode].transform.localScale += new Vector3(0, 0, -moneyScaleChange);
                             totalMoneyCount -= 1;
                             other.GetComponent<BuildingPlane>().amountImage.color = Color.red;
                             other.GetComponent<BuildingPlane>().cost -= 1;
@@ -855,7 +855,7 @@ public class Ai : MonoBehaviour
                             {
                                 bankStackMode = 8;
                             }
-                            bankStack[bankStackMode].transform.localScale += new Vector3(0, -moneyScaleChange, 0);
+                            bankStack[bankStackMode].transform.localScale += new Vector3(0, 0, -moneyScaleChange);
                             totalMoneyCount -= 1;
                             other.GetComponent<BuildingPlane>().cost -= 1;
                             other.GetComponent<BuildingPlane>().amountImage.color = Color.yellow;
@@ -1072,7 +1072,7 @@ public class Ai : MonoBehaviour
                             {
                                 bankStackMode = 8;
                             }
-                            bankStack[bankStackMode].transform.localScale += new Vector3(0, -moneyScaleChange, 0);
+                            bankStack[bankStackMode].transform.localScale += new Vector3(0, 0, -moneyScaleChange);
                             totalMoneyCount -= 1;
                             other.GetComponent<BuildingPlane>().amountImage.color = Color.green;
                             other.GetComponent<BuildingPlane>().cost -= 1;
@@ -1185,7 +1185,7 @@ public class Ai : MonoBehaviour
                                         {
                                             bankStackMode = 8;
                                         }
-                                        bankStack[bankStackMode].transform.localScale += new Vector3(0, -moneyScaleChange, 0);
+                                        bankStack[bankStackMode].transform.localScale += new Vector3(0, 0, -moneyScaleChange);
                                     }
                                 }
 
@@ -1203,7 +1203,7 @@ public class Ai : MonoBehaviour
                                         {
                                             bankStackMode = 8;
                                         }
-                                        bankStack[bankStackMode].transform.localScale += new Vector3(0, -moneyScaleChange, 0);
+                                        bankStack[bankStackMode].transform.localScale += new Vector3(0, 0, -moneyScaleChange);
                                     }
                                 }
 
@@ -1221,7 +1221,7 @@ public class Ai : MonoBehaviour
                                         {
                                             bankStackMode = 8;
                                         }
-                                        bankStack[bankStackMode].transform.localScale += new Vector3(0, -moneyScaleChange, 0);
+                                        bankStack[bankStackMode].transform.localScale += new Vector3(0, 0, -moneyScaleChange);
                                     }
                                 }
 

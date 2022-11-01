@@ -309,9 +309,9 @@ public class GameMngr : MonoBehaviour
                     {
                         me.bankStackMode = 8;
                     }
-                    me.bankStack[me.bankStackMode].transform.localScale += new Vector3(0, -me.moneyScaleChange, 0);
-                    me.bankStack[me.bankStackMode].transform.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BaseMap", new Vector2(1, me.bankStack[me.bankStackMode].transform.localScale.y / 3));
-                    me.bankStack[me.bankStackMode].transform.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BumpMap", new Vector2(1, me.bankStack[me.bankStackMode].transform.localScale.y / 3));
+                    me.bankStack[me.bankStackMode].transform.localScale += new Vector3(0, 0, -me.moneyScaleChange);
+                    me.bankStack[me.bankStackMode].transform.GetComponent<MeshRenderer>().materials[0].SetTextureScale("_BaseMap", new Vector2(1, me.bankStack[me.bankStackMode].transform.localScale.z / 300));
+                    me.bankStack[me.bankStackMode].transform.GetComponent<MeshRenderer>().materials[0].SetTextureScale("_BumpMap", new Vector2(1, me.bankStack[me.bankStackMode].transform.localScale.z / 300));
                 }
                 speedLevel += 1;
                 speedUpgradeCost +=((int) speedUpgradeCost * 0.75f);
@@ -344,9 +344,9 @@ public class GameMngr : MonoBehaviour
                     {
                         me.bankStackMode = 8;
                     }
-                    me.bankStack[me.bankStackMode].transform.localScale += new Vector3(0, -me.moneyScaleChange, 0);
-                    me.bankStack[me.bankStackMode].transform.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BaseMap", new Vector2(1, me.bankStack[me.bankStackMode].transform.localScale.y / 3));
-                    me.bankStack[me.bankStackMode].transform.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BumpMap", new Vector2(1, me.bankStack[me.bankStackMode].transform.localScale.y / 3));
+                    me.bankStack[me.bankStackMode].transform.localScale += new Vector3(0, 0, -me.moneyScaleChange);
+                    me.bankStack[me.bankStackMode].transform.GetComponent<MeshRenderer>().materials[0].SetTextureScale("_BaseMap", new Vector2(1, me.bankStack[me.bankStackMode].transform.localScale.z / 300));
+                    me.bankStack[me.bankStackMode].transform.GetComponent<MeshRenderer>().materials[0].SetTextureScale("_BumpMap", new Vector2(1, me.bankStack[me.bankStackMode].transform.localScale.z / 300));
                 }
                 stackLevel += 1;
                 stackUpgradeCost += stackUpgradeCost * 0.75f;
@@ -379,9 +379,9 @@ public class GameMngr : MonoBehaviour
                     {
                         me.bankStackMode = 8;
                     }
-                    me.bankStack[me.bankStackMode].transform.localScale += new Vector3(0, -me.moneyScaleChange, 0);
-                    me.bankStack[me.bankStackMode].transform.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BaseMap", new Vector2(1, me.bankStack[me.bankStackMode].transform.localScale.y / 3));
-                    me.bankStack[me.bankStackMode].transform.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BumpMap", new Vector2(1, me.bankStack[me.bankStackMode].transform.localScale.y / 3));
+                    me.bankStack[me.bankStackMode].transform.localScale += new Vector3(0, 0, -me.moneyScaleChange);
+                    me.bankStack[me.bankStackMode].transform.GetComponent<MeshRenderer>().materials[0].SetTextureScale("_BaseMap", new Vector2(1, me.bankStack[me.bankStackMode].transform.localScale.z / 300));
+                    me.bankStack[me.bankStackMode].transform.GetComponent<MeshRenderer>().materials[0].SetTextureScale("_BumpMap", new Vector2(1, me.bankStack[me.bankStackMode].transform.localScale.z / 300));
                 }
                 incomeLevel += 1;
                 incomeUpgradeCost += incomeUpgradeCost * 0.75f;
@@ -416,9 +416,9 @@ public class GameMngr : MonoBehaviour
                     {
                         me.bankStackMode = 8;
                     }
-                    me.bankStack[me.bankStackMode].transform.localScale += new Vector3(0, -me.moneyScaleChange, 0);
-                   me. bankStack[me.bankStackMode].transform.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BaseMap", new Vector2(1, me.bankStack[me.bankStackMode].transform.localScale.y / 3));
-                    me.bankStack[me.bankStackMode].transform.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BumpMap", new Vector2(1,me. bankStack[me.bankStackMode].transform.localScale.y / 3));
+                    me.bankStack[me.bankStackMode].transform.localScale += new Vector3(0, 0, -me.moneyScaleChange);
+                   me. bankStack[me.bankStackMode].transform.GetComponent<MeshRenderer>().materials[0].SetTextureScale("_BaseMap", new Vector2(1, me.bankStack[me.bankStackMode].transform.localScale.z / 300));
+                    me.bankStack[me.bankStackMode].transform.GetComponent<MeshRenderer>().materials[0].SetTextureScale("_BumpMap", new Vector2(1,me. bankStack[me.bankStackMode].transform.localScale.z / 300));
                 }
 
                

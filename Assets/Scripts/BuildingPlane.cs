@@ -46,7 +46,7 @@ public class BuildingPlane : MonoBehaviour
                     {
                         var player = GameObject.FindGameObjectWithTag("PlayerRed");
                         player.GetComponent<Ai>().bankMoneyCount += 1;
-                        player.GetComponent<Ai>().bankStack[player.GetComponent<Ai>().bankStackMode].transform.localScale += new Vector3(0, player.GetComponent<Ai>().moneyScaleChange, 0);
+                        player.GetComponent<Ai>().bankStack[player.GetComponent<Ai>().bankStackMode].transform.localScale += new Vector3(0, 0, player.GetComponent<Ai>().moneyScaleChange);
 
                         player.GetComponent<Ai>().bankStackMode += 1;
                         if (player.GetComponent<Ai>().bankStackMode == 9) { player.GetComponent<Ai>().bankStackMode = 0; }
@@ -62,7 +62,7 @@ public class BuildingPlane : MonoBehaviour
                     {
                         var player = GameObject.FindGameObjectWithTag("PlayerGreen");
                         player.GetComponent<Ai>().bankMoneyCount += 1;
-                        player.GetComponent<Ai>().bankStack[player.GetComponent<Ai>().bankStackMode].transform.localScale += new Vector3(0, player.GetComponent<Ai>().moneyScaleChange, 0);
+                        player.GetComponent<Ai>().bankStack[player.GetComponent<Ai>().bankStackMode].transform.localScale += new Vector3(0, 0, player.GetComponent<Ai>().moneyScaleChange);
 
                         player.GetComponent<Ai>().bankStackMode += 1;
                         if (player.GetComponent<Ai>().bankStackMode == 9) { player.GetComponent<Ai>().bankStackMode = 0; }
@@ -78,7 +78,7 @@ public class BuildingPlane : MonoBehaviour
                     {
                         var player = GameObject.FindGameObjectWithTag("PlayerYellow");
                         player.GetComponent<Ai>().bankMoneyCount += 1;
-                        player.GetComponent<Ai>().bankStack[player.GetComponent<Ai>().bankStackMode].transform.localScale += new Vector3(0, player.GetComponent<Ai>().moneyScaleChange, 0);
+                        player.GetComponent<Ai>().bankStack[player.GetComponent<Ai>().bankStackMode].transform.localScale += new Vector3(0, 0, player.GetComponent<Ai>().moneyScaleChange);
 
                         player.GetComponent<Ai>().bankStackMode += 1;
                         if (player.GetComponent<Ai>().bankStackMode == 9) { player.GetComponent<Ai>().bankStackMode = 0; }
@@ -102,12 +102,12 @@ public class BuildingPlane : MonoBehaviour
                     saleTimer = 0;
                     var player = GameObject.FindGameObjectWithTag("PlayerBlue");
                     player.GetComponent<Character>().gm.bankMoneyCount += 1;
-                    player.GetComponent<Character>().bankStack[player.GetComponent<Character>().bankStackMode].transform.localScale += new Vector3(0, player.GetComponent<Character>().moneyScaleChange, 0);
+                    player.GetComponent<Character>().bankStack[player.GetComponent<Character>().bankStackMode].transform.localScale += new Vector3(0, 0, player.GetComponent<Character>().moneyScaleChange);
 
                     player.GetComponent<Character>().bankStackMode += 1;
                     if (player.GetComponent<Character>().bankStackMode == 9) { player.GetComponent<Character>().bankStackMode = 0; }
-                    player.GetComponent<Character>().bankStack[player.GetComponent<Character>().bankStackMode].transform.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BaseMap", new Vector2(1, player.GetComponent<Character>().bankStack[player.GetComponent<Character>().bankStackMode].transform.localScale.y / 3));
-                    player.GetComponent<Character>().bankStack[player.GetComponent<Character>().bankStackMode].transform.GetComponent<MeshRenderer>().materials[1].SetTextureScale("_BumpMap", new Vector2(1, player.GetComponent<Character>().bankStack[player.GetComponent<Character>().bankStackMode].transform.localScale.y / 3));
+                    player.GetComponent<Character>().bankStack[player.GetComponent<Character>().bankStackMode].transform.GetComponent<MeshRenderer>().materials[0].SetTextureScale("_BaseMap", new Vector2(1, player.GetComponent<Character>().bankStack[player.GetComponent<Character>().bankStackMode].transform.localScale.z / 300));
+                    player.GetComponent<Character>().bankStack[player.GetComponent<Character>().bankStackMode].transform.GetComponent<MeshRenderer>().materials[0].SetTextureScale("_BumpMap", new Vector2(1, player.GetComponent<Character>().bankStack[player.GetComponent<Character>().bankStackMode].transform.localScale.z / 300));
                     player.GetComponent<Character>().gm.bankMoneyText.text = player.GetComponent<Character>().gm.bankMoneyText.text = "$ " + player.GetComponent<Character>().gm.bankMoneyCount;
                     player.GetComponent<Character>().gm.totalMoneyCount += 1;
                     player.GetComponent<Character>().gm.totalMoneyText.text = player.GetComponent<Character>().gm.totalMoneyCount.ToString();
